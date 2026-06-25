@@ -1,0 +1,408 @@
+from reportlab.platypus import (
+
+    SimpleDocTemplate,
+
+    Paragraph,
+
+    Spacer
+
+)
+
+from reportlab.lib.styles import (
+
+    getSampleStyleSheet
+
+)
+
+from datetime import datetime
+
+import os
+
+
+def generate_pdf(
+
+    city,
+
+    hospitals,
+
+    police_stations,
+
+    fire_stations,
+
+    enabled_features
+
+):
+
+    os.makedirs(
+
+        "exports",
+
+        exist_ok=True
+
+    )
+
+    filename = "exports/crisis_report.pdf"
+
+    document = SimpleDocTemplate(
+
+        filename
+
+    )
+
+    styles = getSampleStyleSheet()
+
+    elements = []
+
+    current_time = datetime.now().strftime(
+
+        "%d-%m-%Y %H:%M:%S"
+
+    )
+
+    # =========================
+    # Analytics
+    # =========================
+
+    total_services = (
+
+        len(hospitals)
+
+        +
+
+        len(police_stations)
+
+        +
+
+        len(fire_stations)
+
+    )
+
+    infrastructure_index = min(
+
+        round(
+
+            total_services * 1.2,
+
+            1
+
+        ),
+
+        10
+
+    )
+
+    if infrastructure_index >= 8:
+
+        infrastructure_status = "Excellent"
+
+    elif infrastructure_index >= 5:
+
+        infrastructure_status = "Moderate"
+
+    else:
+
+        infrastructure_status = "Limited"
+
+    summary = []
+
+    if len(hospitals) >= 2:
+
+        summary.append(
+
+            "Good hospital coverage"
+
+        )
+
+    else:
+
+        summary.append(
+
+            "Limited hospital coverage"
+
+        )
+
+    if len(police_stations) >= 2:
+
+        summary.append(
+
+            "Good police coverage"
+
+        )
+
+    else:
+
+        summary.append(
+
+            "Limited police coverage"
+
+        )
+
+    if len(fire_stations) >= 1:
+
+        summary.append(
+
+            "Fire coverage available"
+
+        )
+
+    else:
+
+        summary.append(
+
+            "Limited fire coverage"
+
+        )
+
+    # =========================
+    # Title
+    # =========================
+
+    elements.append(
+
+        Paragraph(
+
+            "CrisisGrid Situation Report (SITREP)",
+
+            styles["Title"]
+
+        )
+
+    )
+
+    elements.append(
+
+        Spacer(1, 10)
+
+    )
+
+    # =========================
+    # Report Details
+    # =========================
+
+    elements.append(
+
+        Paragraph(
+
+            f"<b>Generated:</b> {current_time}",
+
+            styles["Normal"]
+
+        )
+
+    )
+
+    elements.append(
+
+        Paragraph(
+
+            f"<b>City:</b> {city}",
+
+            styles["Normal"]
+
+        )
+
+    )
+
+    elements.append(
+
+        Spacer(1, 10)
+
+    )
+
+    # =========================
+    # Service Statistics
+    # =========================
+
+    elements.append(
+
+        Paragraph(
+
+            "<b>Emergency Infrastructure</b>",
+
+            styles["Heading2"]
+
+        )
+
+    )
+
+    elements.append(
+
+        Paragraph(
+
+            f"Hospitals: {len(hospitals)}",
+
+            styles["Normal"]
+
+        )
+
+    )
+
+    elements.append(
+
+        Paragraph(
+
+            f"Police Stations: {len(police_stations)}",
+
+            styles["Normal"]
+
+        )
+
+    )
+
+    elements.append(
+
+        Paragraph(
+
+            f"Fire Stations: {len(fire_stations)}",
+
+            styles["Normal"]
+
+        )
+
+    )
+
+    elements.append(
+
+        Spacer(1, 10)
+
+    )
+
+    # =========================
+    # Insights
+    # =========================
+
+    elements.append(
+
+        Paragraph(
+
+            "<b>Infrastructure Insights</b>",
+
+            styles["Heading2"]
+
+        )
+
+    )
+
+    elements.append(
+
+        Paragraph(
+
+            f"Infrastructure Availability Index: {infrastructure_index}/10",
+
+            styles["Normal"]
+
+        )
+
+    )
+
+    elements.append(
+
+        Paragraph(
+
+            f"Infrastructure Status: {infrastructure_status}",
+
+            styles["Normal"]
+
+        )
+
+    )
+
+    elements.append(
+
+        Spacer(1, 10)
+
+    )
+
+    # =========================
+    # Summary
+    # =========================
+
+    elements.append(
+
+        Paragraph(
+
+            "<b>Assessment Summary</b>",
+
+            styles["Heading2"]
+
+        )
+
+    )
+
+    for item in summary:
+
+        elements.append(
+
+            Paragraph(
+
+                f"• {item}",
+
+                styles["Normal"]
+
+            )
+
+        )
+
+    elements.append(
+
+        Spacer(1, 10)
+
+    )
+
+    # =========================
+    # Enabled Features
+    # =========================
+
+    elements.append(
+
+        Paragraph(
+
+            "<b>Enabled Features</b>",
+
+            styles["Heading2"]
+
+        )
+
+    )
+
+    elements.append(
+
+        Paragraph(
+
+            enabled_features,
+
+            styles["Normal"]
+
+        )
+
+    )
+
+    elements.append(
+
+        Spacer(1, 20)
+
+    )
+
+    # =========================
+    # Footer
+    # =========================
+
+    elements.append(
+
+        Paragraph(
+
+            "Generated by CrisisGrid",
+
+            styles["Italic"]
+
+        )
+
+    )
+
+    document.build(
+
+        elements
+
+    )
+
+    return filename

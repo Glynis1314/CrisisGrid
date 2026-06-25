@@ -1,0 +1,30 @@
+city,type,name,latitude,longitude
+
+Mumbai,hospital,Apollo Hospital,19.0870,72.8680
+Mumbai,hospital,Lilavati Hospital,19.0500,72.8290
+Mumbai,hospital,Kokilaben Hospital,19.1310,72.8250
+
+Mumbai,police,Bandra Police Station,19.0544,72.8405
+Mumbai,police,Andheri Police Station,19.1136,72.8697
+Mumbai,police,Dadar Police Station,19.0178,72.8478
+
+Mumbai,fire,Bandra Fire Station,19.0580,72.8340
+Mumbai,fire,Andheri Fire Station,19.1190,72.8470
+Mumbai,fire,Dadar Fire Station,19.0140,72.8440
+
+
+Pune,hospital,Ruby Hall Clinic,18.5362,73.8777
+Pune,hospital,Sahyadri Hospital,18.5089,73.8320
+
+Pune,police,Shivajinagar Police Station,18.5308,73.8475
+Pune,police,Deccan Police Station,18.5174,73.8410
+
+Pune,fire,Pune Fire Brigade HQ,18.5204,73.8567
+
+
+Delhi,hospital,AIIMS Delhi,28.5672,77.2100
+Delhi,hospital,Safdarjung Hospital,28.5682,77.2050
+
+Delhi,police,Connaught Place Police Station,28.6315,77.2167
+
+Delhi,fire,Connaught Place Fire Station,28.6310,77.2200
