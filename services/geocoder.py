@@ -1,26 +1,25 @@
 from geopy.geocoders import Nominatim
+from geopy.exc import GeocoderUnavailable, GeocoderTimedOut
 
+geolocator = Nominatim(
+    user_agent="crisisgrid_app",
+    timeout=10
+)
 
 def get_coordinates(city):
+    try:
+        location = geolocator.geocode(city)
 
-    geolocator = Nominatim(
+        if location:
+            return (
+                location.latitude,
+                location.longitude
+            )
 
-        user_agent="crisisgrid"
-    )
+        return None
 
-    location = geolocator.geocode(
+    except (GeocoderUnavailable, GeocoderTimedOut):
+        return None
 
-        city
-    )
-
-    if location:
-
-        return (
-
-            location.latitude,
-
-            location.longitude
-
-        )
-
-    return None
+    except Exception:
+        return None
